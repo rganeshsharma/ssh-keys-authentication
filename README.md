@@ -1,5 +1,6 @@
 # GitLab SSH Key Setup - Quick Reference
 
+```bash
 # Create the gitlab directory
 mkdir -p ~/.ssh/gitlab
 
@@ -20,19 +21,32 @@ cat ~/.ssh/gitlab/id_ed25519.pub
 # View key fingerprint
 ssh-keygen -lf ~/.ssh/gitlab/id_ed25519.pub
 
+
+# Add this keys to config for automatic path discovery while cloning or pushing 
+
+cd ~/.ssh
+touch config
+
+# Open the file in a text editor, e.g., nano, vim, or Notepad
+# cept-gitlab-mysuru
+Host gitlab.cept.gov.in
+  PreferredAuthentications publickey
+  IdentityFile ~/.ssh/gitlab/id_ed25519
+```
+
 ## 📋 Next Steps
 
 ### 1. Add Your Public Key to GitLab
 
 Copy this public key:
 ```
-ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDi7RmNgshBWAbYBX2SYrdCXuZCwasNNredLKvvlAF0z -gitlab
+ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDi7RmNgshBWAbYBX2SYrdCXuZCwasNNredLKvvlAF0z gitlab
 ```
 
 **Add to GitLab:**
 1. Go to GitLab → Settings → SSH Keys (or https://gitlab.com/-/user_keys)
 2. Paste the public key above
-3. Give it a title like " Work Machine"
+3. Give it a title like "Ganesh's Public Keys"
 4. Click "Add key"
 
 ### 2. Test the Connection
