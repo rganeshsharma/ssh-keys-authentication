@@ -1,18 +1,24 @@
 # GitLab SSH Key Setup - Quick Reference
 
-## ✅ What Was Created
+# Create the gitlab directory
+mkdir -p ~/.ssh/gitlab
 
-1. **Directory**: `~/.ssh/gitlab/`
-   - Contains your ED25519 key pair
-   
-2. **Private Key**: `~/.ssh/gitlab/id_ed25519` (permissions: 600)
-   - Keep this secret and never share it
-   
-3. **Public Key**: `~/.ssh/gitlab/id_ed25519.pub` (permissions: 644)
-   - This is what you add to GitLab
-   
-4. **SSH Config**: `~/.ssh/config` (permissions: 600)
-   - Automatically uses your GitLab key when connecting
+# Generate ED25519 key pair (recommended - more secure and faster)
+ssh-keygen -t ed25519 -C "gitlab" -f ~/.ssh/gitlab/id_ed25519
+
+# OR generate RSA key pair (if ED25519 is not supported)
+ssh-keygen -t rsa -b 4096 -C "gitlab" -f ~/.ssh/gitlab/id_rsa
+
+# Set proper permissions
+chmod 700 ~/.ssh/gitlab
+chmod 600 ~/.ssh/gitlab/id_ed25519      # or id_rsa for RSA key
+chmod 644 ~/.ssh/gitlab/id_ed25519.pub  # or id_rsa.pub for RSA key
+
+# View your public key (to add to GitLab)
+cat ~/.ssh/gitlab/id_ed25519.pub
+
+# View key fingerprint
+ssh-keygen -lf ~/.ssh/gitlab/id_ed25519.pub
 
 ## 📋 Next Steps
 
@@ -20,13 +26,13 @@
 
 Copy this public key:
 ```
-ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDi7RmNgshBWAbYBX2SYrdCXuZCwasNNredLKvvlAF0z ganesh-gitlab
+ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDi7RmNgshBWAbYBX2SYrdCXuZCwasNNredLKvvlAF0z -gitlab
 ```
 
 **Add to GitLab:**
 1. Go to GitLab → Settings → SSH Keys (or https://gitlab.com/-/user_keys)
 2. Paste the public key above
-3. Give it a title like "Ganesh Work Machine"
+3. Give it a title like " Work Machine"
 4. Click "Add key"
 
 ### 2. Test the Connection
